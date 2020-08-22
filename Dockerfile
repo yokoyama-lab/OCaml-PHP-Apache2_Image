@@ -13,6 +13,8 @@ RUN sudo apt-get install m4 -y --no-install-recommends \
     && eval $(opam env) \
     && eval `opam config env` \
     && opam install extlib ocamlfind -y \
+    && exec $SHELL -l \
+    && eval $(opam env)
 
 # haskellをインストール
 RUN sudo apt-get install -y haskell-platform --no-install-recommends \
