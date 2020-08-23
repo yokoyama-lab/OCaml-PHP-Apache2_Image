@@ -4,8 +4,8 @@ Dockerfile for Apache2 Server with OCaml.
 ## Usage
 Run the following command in your repository to create the docker container.
 ```
-docker build -t <name of image> .
-docker run -it -d --name php-ocaml-container <name of image>
+docker build -t <image name> .
+docker run -it -d --name php-ocaml-container <image name>
 ```
 
 After build completely finishes, enter in a Docker container to set path to opam.
