@@ -1,25 +1,28 @@
-FROM ocaml/opam2:ubuntu
+FROM php:7.3-apache
 
-# システムの文字コード指定
-RUN sudo apt-get update -y \
+# system setting
+RUN apt-get update \
+    && apt-get -y autoremove \
     && echo 'export LANG=C.UTF-8' >> ~/.bashrc \
     && echo 'export LANGUAGE="C.UTF-8"' >> ~/.bashrc
 
-# opam 
-RUN sudo apt-get install m4 -y --no-install-recommends \
-    && opam init \
+# install opam (extlib & ocamlfind)
+RUN apt-get install -y --no-install-recommends opam \
+    && opam init -y --disable-sandboxing \
+    && eval `opam config env` \
+    && eval $(opam env) \
     && opam update \
     && opam switch \
     && eval $(opam env) \
-    && eval `opam config env` \
-    && opam install extlib ocamlfind -y \
+    && opam install -y extlib ocamlfind \
+    && eval $(opam env)
 
-# haskellをインストール
-RUN sudo apt-get install -y haskell-platform --no-install-recommends \
+# install haskell (BNFC)
+RUN apt-get install -y --no-install-recommends haskell-platform \
     && cabal update \
     && cabal install BNFC \
-    && sudo ln -s /home/opam/.cabal/bin/bnfc /usr/bin/bnfc
+    && ln -s /root/.cabal/bin/bnfc /usr/local/bin/bnfc
 
-# キャッシュを削除
-RUN sudo apt-get -y clean \
-    && sudo rm -rf /var/lib/apt/lists/*
+# clear cache
+RUN apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/*
