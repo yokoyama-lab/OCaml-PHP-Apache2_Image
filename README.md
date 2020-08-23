@@ -2,15 +2,25 @@
 Dockerfile for Apache2 Server with OCaml. 
 
 ## Usage
-In OCaml-PHP-Apache2_Image directory.
-```Console:
-docker build -t <name of container>:<ver> .
-docker run -it -d --name php-ocaml-container <name of image>:<ver>
+Run the following command in your repository to create the docker container.
+```
+docker build -t <name of image> .
+docker run -it -d --name php-ocaml-container <name of image>
 ```
 
+After build completely finishes, enter in a Docker container to set path to opam.
 ```
 docker exec -i -t php-ocaml-container bash
 eval $(opam env)
 ```
 
-コンテナビルド後に `eval $(opam env)` を実行し `ocamlyacc` 及び `ocamlfind` のpathを通す必要がある。(なぜかRUNで出来なかったので調査します)
+### Note
+- Document root of this image is `/var/www/html` .
+- If `ocamlyacc: command not found` appear on the screen, run `eval $(opam env)` first.
+
+## Example
+```
+docker build -t OCaml-PHP-Apache-container .
+
+docker run -it -d --name OCaml-PHP-Apache-container -v /foo/var/index.html:/var/www/html -p 80:80 OCaml-PHP-Apache-container
+```
