@@ -21,6 +21,5 @@ eval $(opam env)
 ## Example
 ```
 docker build -t OCaml-PHP-Apache-container .
-
-docker run -it -d --name OCaml-PHP-Apache-container -v /foo/var:/var/www/html -p 80:80 OCaml-PHP-Apache-container
+docker run -it -d --name OCaml-PHP-Apache-container -v /foo/bar:/var/www/html -p 80:80 OCaml-PHP-Apache-container
 ```
